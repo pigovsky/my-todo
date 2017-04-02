@@ -1,34 +1,28 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
+import { AddItemPage } from '../add-item/add-item'
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
 export class HomePage {
+  public items = []
 
-  items = [
-     { 
-        title: "Лекція з КППЗ"
-     }, 
-     { 
-        title: "Практична з КППЗ"
-     }, 
-  ]
-
-  constructor(public navCtrl: NavController) {
-    
-  }
-
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController) { }
 
   addItem() {
-    console.log("addItem");
-    this.items.push(
-		{ 
-        title: "beliberda"
-      } 
-    )
+    let addModal = this.modalCtrl.create(AddItemPage);
+    addModal.onDidDismiss((item) => {
+      if(item){ this.saveItem(item); }
+    });
+    addModal.present();
+  }
+
+  saveItem(item){
+    this.items.push(item);
   }
 
   delete(item) {

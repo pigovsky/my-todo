@@ -1,40 +1,32 @@
 import { Component } from '@angular/core';
-
-import { NavController } from 'ionic-angular';
+import {NavController } from 'ionic-angular';
+import {AddPage} from "../add/add";
 
 @Component({
-  selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
 
-  items = [
-     { 
-        title: "Лекція з КППЗ"
-     }, 
-     { 
-        title: "Практична з КППЗ"
-     }, 
-  ]
-
-  constructor(public navCtrl: NavController) {
-    
-  }
-
-
-  addItem() {
-    console.log("addItem");
-    this.items.push(
-		{ 
-        title: "beliberda"
-      } 
-    )
-  }
-
-  delete(item) {
-    console.log("delete item " + item.title);
-    this.items.splice(this.items.indexOf(item), 1);
-  }
+    public items: Array<string>;
+ 
+    constructor(private nav: NavController) { }
+ 
+    ionViewDidEnter () {
+        
+        this.items = JSON.parse(localStorage.getItem("todos"));
+        if (!this.items) {
+            this.items = [];
+        }
+    }
+ 
+    delete(index: number) {
+        this.items.splice(index, 1);
+        localStorage.setItem("todos", JSON.stringify(this.items));
+    }
+ 
+    addItem() {
+        this.nav.push(AddPage);
+    }
 }
 
 

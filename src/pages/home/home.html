@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="secondary">
     <ion-title>
-        Todos!
+        <p align="center" font-size:1rem> Todos! </p>
     </ion-title>
     <ion-buttons end>
         <button ion-button icon-only (click)="addItem()"><ion-icon name="add-circle"></ion-icon></button>
@@ -14,7 +14,7 @@
     <ion-item *ngFor="let item of items" (click)="viewItem(item)">
 		{{item.title}} <button ion-button icon-only (click)="delete(item)"> 
          <ion-icon name="trash"></ion-icon>
-      </button>
+      </button>	  
 	 </ion-item>
   </ion-list>
 </ion-content>

@@ -12,8 +12,8 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let item of items" (click)="viewItem(item)">
-		{{item.title}} <button ion-button icon-only (click)="delete(item)"> 
-         <ion-icon name="trash"></ion-icon>
+		{{item.title}} <button class="button-tr" ion-button icon-only (click)="delete(item)"> 
+        <ion-icon class="custom-icon" name="trash"></ion-icon>
       </button>
 	 </ion-item>
   </ion-list>

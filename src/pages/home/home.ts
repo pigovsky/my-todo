@@ -26,15 +26,40 @@ export class HomePage {
     console.log("addItem");
     this.items.push(
 		{ 
-        title: "beliberda"
+		
+		
+        title: "Нове завдання"
+		
       } 
     )
+	
+	alert('Нове завдання створено успішно!');
   }
 
   delete(item) {
     console.log("delete item " + item.title);
     this.items.splice(this.items.indexOf(item), 1);
   }
-}
+
+  
+  
+  
+  
+  
+  
+  hreff(){
+	  
+	  window.open("https://ionicframework.com/");
+  }
+  
+  
+  
+  
+  
+  
+  
+  }
+
+
 
 

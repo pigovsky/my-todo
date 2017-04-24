@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-
+import {ToDoService} from '../app/services/ToDoService';
 import { NavController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+  providers: [ToDoService]
 })
 export class HomePage {
 
@@ -17,8 +18,17 @@ export class HomePage {
      }, 
   ]
 
-  constructor(public navCtrl: NavController) {
-    
+  constructor(public navCtrl: NavController, private todoService: ToDoService) {
+    todoService.getAll().subscribe(
+                data => {
+                    this.items = data.results; 
+                    console.log(data);
+                },
+                err => {
+                    console.log(err);
+                },
+                () => console.log('Todo Search Complete')
+            );
   }
 
 

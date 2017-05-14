@@ -8,11 +8,11 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
- 
+
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let item of items" (click)="viewItem(item)">
-		{{item.title}} <button ion-button icon-only (click)="delete(item)"> 
+		ID: {{item.Id}}: {{item.Value}} <button ion-button icon-only (click)="delete(item)">
          <ion-icon name="trash"></ion-icon>
       </button>
 	 </ion-item>

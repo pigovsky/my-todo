@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {Http} from '@angular/http';
 
-import { NavController } from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -8,31 +9,26 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  items = [
-     { 
-        title: "Лекція з КППЗ"
-     }, 
-     { 
-        title: "Практична з КППЗ"
-     }, 
-  ]
+  items: any;
 
-  constructor(public navCtrl: NavController) {
-    
+  constructor(public navCtrl: NavController, public http: Http) {
+    this.http.get('/api/values').map(function (res) {
+      return res.json();
+    }).subscribe(data => {
+      this.items = data;
+    });
   }
 
 
   addItem() {
-    console.log("addItem");
     this.items.push(
-		{ 
+      {
         title: "beliberda"
-      } 
+      }
     )
   }
 
   delete(item) {
-    console.log("delete item " + item.title);
     this.items.splice(this.items.indexOf(item), 1);
   }
 }

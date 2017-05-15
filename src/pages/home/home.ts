@@ -18,11 +18,7 @@ export class HomePage {
   }
 
   addItem() {
-    this.items.push(
-		{
-        title: "beliberda"
-      }
-    )
+    this.items.push({ title: "beliberda" })
   }
 
   delete(item) {

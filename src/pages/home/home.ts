@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { ModalController, NavController } from 'ionic-angular';
+import { AddItemPage } from '../add-item/add-item'
+import { ItemDetailPage } from '../item-detail/item-detail';
+import {Http} from '@angular/http';
 
-import { NavController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -8,28 +11,47 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  items = [
-     { 
-        title: "Лекція з КППЗ"
-     }, 
-     { 
-        title: "Практична з КППЗ"
-     }, 
-  ]
+public items = []
 
-  constructor(public navCtrl: NavController) {
+
+
+
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public http: Http) {
+	  this.http.get('/api/values').map(res => res.json()).subscribe(data => {
+      this.items = data;
+	});
+	
     
   }
 
+ionViewDidLoad(){
+
+}
 
   addItem() {
-    console.log("addItem");
-    this.items.push(
-		{ 
-        title: "beliberda"
-      } 
-    )
+      let addModal = this.modalCtrl.create(AddItemPage);
+ 
+    addModal.onDidDismiss((item) => {
+ 
+          if(item){
+            this.saveItem(item);
+          }
+ 
+    });
+ 
+    addModal.present();
+ 
   }
+ 
+  saveItem(item){
+    this.items.push(item);
+  }
+ 
+viewItem(item){
+  this.navCtrl.push(ItemDetailPage, {
+    item: item
+  });
+}
 
   delete(item) {
     console.log("delete item " + item.title);

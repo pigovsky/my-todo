@@ -1,26 +1,24 @@
 import { Component } from '@angular/core';
 import {NavController} from 'ionic-angular';
+import {ApiService} from '../../providers/api-service';
+
 @Component({
-    templateUrl: '../add/add.html'
+    templateUrl: '../add/add.html',
+    providers: [ApiService]
 })
 
 export class AddPage {
-
-    public items: Array<string>;
     public todoItem: string;
 
-    constructor(private nav: NavController) {
-        this.items = JSON.parse(localStorage.getItem("todos"));
-        if (!this.items) {
-            this.items = [];
-        }
+    constructor(public apiService: ApiService,private nav: NavController) {
         this.todoItem = "";
     }
 
     save() {
         if (this.todoItem != "") {
-            this.items.push(this.todoItem);
-            localStorage.setItem("todos", JSON.stringify(this.items));
+            var data = {State:true,Value: this.todoItem};
+            console.log(data);
+            this.apiService.save(data);
             this.nav.pop();
         }
     }

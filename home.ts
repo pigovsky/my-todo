@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ModalController, NavController } from 'ionic-angular';
 import { AddItemPage } from '../add-item/add-item'
 import { ItemDetailPage } from '../item-detail/item-detail';
+import {Http} from '@angular/http';
+
 
 @Component({
   selector: 'page-home',
@@ -9,13 +11,16 @@ import { ItemDetailPage } from '../item-detail/item-detail';
 })
 export class HomePage {
 
-  items = [
-     { 
-        title: "Лаб 1"
-     },
-  ]
+public items = []
 
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController) {
+
+
+
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public http: Http) {
+	  this.http.get('/api/values').map(res => res.json()).subscribe(data => {
+      this.items = data;
+	});
+	
     
   }
 

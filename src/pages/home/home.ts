@@ -1,40 +1,65 @@
 import { Component } from '@angular/core';
+import {NavController } from 'ionic-angular';
+import {ApiService} from '../../providers/api-service';
+import {AddPage} from "../add/add";
+import {EditPage} from "../edit/edit";
 
-import { NavController } from 'ionic-angular';
+
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+    providers: [ApiService]
 })
 export class HomePage {
 
-  items = [
-     { 
-        title: "Лекція з КППЗ"
-     }, 
-     { 
-        title: "Практична з КППЗ"
-     }, 
-  ]
+    public items: Array<string>;
+    public data: any;
+ 
+    constructor(public apiService: ApiService,private nav: NavController) {
+    }
 
-  constructor(public navCtrl: NavController) {
-    
-  }
+    loadData(){
+        this.apiService.load()
+            .then(data => {
+                this.data = data;
+                this.getDataForView();
+            });
 
+    }
 
-  addItem() {
-    console.log("addItem");
-    this.items.push(
-		{ 
-        title: "beliberda"
-      } 
-    )
-  }
+    ionViewDidEnter() {
+        this.loadData();
+    }
 
-  delete(item) {
-    console.log("delete item " + item.title);
-    this.items.splice(this.items.indexOf(item), 1);
-  }
+    private getDataForView() {
+        this.items = [];
+        for (var i = 0; i < this.data.length; i++) {
+            this.items.push(JSON.stringify(this.data[i]));
+        }
+    }
+ 
+    addItem() {
+        this.nav.push(AddPage);
+    }
+
+    delete(item: string) {
+        // console.log(JSON.parse(index).Id);
+        this.apiService.delete(JSON.parse(item).Id);
+        // this.items.splice(index, 1);
+        // localStorage.setItem("todos", JSON.stringify(this.items));
+    }
+
+    update(item: string) {
+        // console.log(JSON.parse(index).Id);
+        this.nav.push(EditPage, {
+            param1: JSON.parse(item)
+        })
+        // this.items.splice(index, 1);
+        // localStorage.setItem("todos", JSON.stringify(this.items));
+    }
+ 
+
 }
+
 
 

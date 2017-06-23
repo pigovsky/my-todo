@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ModalController, NavController } from 'ionic-angular';
-import { AddItemPage } from '../pages/item add';
+import { AddItemPage } from '../pages/item-add';
   		  
  @Component({
   selector: 'page-home',

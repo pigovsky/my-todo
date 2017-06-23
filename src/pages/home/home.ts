@@ -1,61 +1,33 @@
 import { Component } from '@angular/core';
-import { ModalController, NavController } from 'ionic-angular';
-import { NavController } from 'ionic-angular';
-import {Http} from '@angular/http';
+import { AddItemPage } from '../pages/item add';
+  		  
+  @Component({		  @Component({
+    selector: 'page-home',		    selector: 'page-home',
+    templateUrl: 'home.html'		    templateUrl: 'home.html'
+  })		  })
+  export class HomePage {		  export class HomePage {
+  		  
 
-@Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
-})
-export class HomePage {
+             this.saveItem(item);
+           }
+  
+     });
+  
+     addModal.present();
+  
+    }		    }
+  		  
+    delete(item) {		    delete(item) {
 
-public items = []
-
-
-
-
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public http: Http) {
-	  this.http.get('/api/values').map(res => res.json()).subscribe(data => {
-      this.items = data;
-	});
-	
-    
-  }
-
-ionViewDidLoad(){
-
-}
-
-  addItem() {
-      let addModal = this.modalCtrl.create(AddItemPage);
  
-   addModal.onDidDismiss((item) => {
+   saveItem(item){
+     this.items.push(item);
+   }
  
-          if(item){
-            this.saveItem(item);
-          }
- 
-    });
- 
-    addModal.present();
- 
-  }
- 
-  saveItem(item){
-    this.items.push(item);
-  }
- 
-viewItem(item){
-  this.navCtrl.push(ItemDetailPage, {
-    item: item
-  });
-}
-
-  delete(item) {
-    console.log("delete item " + item.title);
-    this.items.splice(this.items.indexOf(item), 1);
-  }
-}
-
-
-
+   viewItem(item){
+   this.navCtrl.push(ItemDetailPage, {
+       item: item
+     });
+   }
+  }		  }
+  		  

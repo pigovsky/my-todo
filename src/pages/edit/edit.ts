@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import {ApiService} from '../../providers/api-service';
+import {RemoteTaskService} from '../../providers/RemoteTaskService';
 /*
   Generated class for the Edit page.
 
@@ -9,14 +9,14 @@ import {ApiService} from '../../providers/api-service';
 */
 @Component({
   templateUrl: 'edit.html',
-    providers: [ApiService]
+    providers: [RemoteTaskService]
 })
 export class EditPage {
 
   public todoItemObj: any;
   public todoItem: string;
 
-  constructor(public apiService: ApiService,private nav: NavController,private navParams: NavParams) {
+  constructor(public apiService: RemoteTaskService, private nav: NavController, private navParams: NavParams) {
     this.todoItemObj =navParams.get('param1');
     this.todoItem  = this.todoItemObj.Value;
   }

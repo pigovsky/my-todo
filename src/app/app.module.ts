@@ -4,6 +4,9 @@ import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
 import {AddPage} from "../pages/add/add";
 import {EditPage} from "../pages/edit/edit";
+import { LocalTaskServiceProvider } from '../providers/local-task-service/local-task-service';
+import { TaskServiceProvider } from '../providers/task-service/task-service';
+import {RemoteTaskService} from "../providers/RemoteTaskService";
 
 @NgModule({
     declarations: [
@@ -22,7 +25,10 @@ import {EditPage} from "../pages/edit/edit";
         AddPage,
         EditPage,
     ],
-    providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+    providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},
+    LocalTaskServiceProvider,
+    TaskServiceProvider,
+    RemoteTaskService]
 })
 export class AppModule {
 }

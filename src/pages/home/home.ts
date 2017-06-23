@@ -1,49 +1,69 @@
-import { Injectable } from '@angular/core';
 import { Component } from '@angular/core';
-import { TasksDao } from '../../app/daos/TasksDao';
-import { TasksDaoImpl } from '../../app/daos/TasksDaoImpl';
-import { Task } from '../../app/models/Task';
-import { SyncStatus } from '../../app/models/SyncStatus';
-import { NavController } from 'ionic-angular';
+import {AlertController, NavController} from 'ionic-angular';
+import {RemoteTaskService} from '../../providers/RemoteTaskService';
+import {AddPage} from "../add/add";
+import {EditPage} from "../edit/edit";
+import {Observable} from "rxjs/Observable";
+import {TaskServiceProvider} from "../../providers/task-service/task-service";
+import {Task} from "../../models/Task";
 
-@Injectable()
+
+
 @Component({
-  selector: 'page-home',
   templateUrl: 'home.html',
-  providers : [TasksDaoImpl] 
+    providers: [TaskServiceProvider]
 })
 export class HomePage {
 
-  items: Array<Task>
+    public items: Array<string>;
+    public data: Array<Task>;
 
-  constructor(public navCtrl: NavController, private tasksDao: TasksDaoImpl) {
-    this.loadTasks();
-  }
+    constructor(public taskService: TaskServiceProvider, private nav: NavController, private alertCtrl: AlertController) {
+    }
 
-  loadTasks() {
-    this.tasksDao.getAll()
-    .subscribe(items => {
-       this.items = items;
-       console.log(items);
-    });	
-  }
+    loadData(){
+        this.taskService.all().subscribe(
+            res => {
+                this.data=res;
+                this.getDataForView();
+            }
+        );
+    }
 
-  addItem() {
-    let id = this.items.length;
-    this.tasksDao.create(new Task(id, "beliberda" + id, SyncStatus.New))
-      .subscribe(x => {
-         console.log("create result " + x);
-         this.loadTasks();
-      });
-  }
+    ionViewDidEnter() {
+        this.loadData();
+    }
 
-  delete(item) {
-    this.tasksDao.delete(item.id)
-      .subscribe(x => {
-         console.log("delete result " + x);
-         this.loadTasks();
-      });
-  }
+    private getDataForView() {
+        this.items = [];
+        for (var i = 0; i < this.data.length; i++) {
+            this.items.push(JSON.stringify(this.data[i]));
+        }
+    }
+ 
+    addItem() {
+        this.nav.push(AddPage);
+    }
+
+    delete(item: string) {
+        // console.log(JSON.parse(index).Id);
+        this.taskService.delete(JSON.parse(item).Id);
+        // this.items.splice(index, 1);
+        // localStorage.setItem("todos", JSON.stringify(this.items));
+    }
+
+    update(item: string) {
+        // console.log(JSON.parse(index).Id);
+        this.nav.push(EditPage, {
+            param1: JSON.parse(item)
+        })
+        // this.items.splice(index, 1);
+        // localStorage.setItem("todos", JSON.stringify(this.items));
+    }
+
+
+
 }
+
 
 

@@ -1,12 +1,11 @@
-{
+﻿{
   "name": "my-todo",
   "app_id": "",
-  "v2": true,
-  "typescript": true,
   "proxies": [
     {
-      "path": "/api",
-      "proxyUrl": "http://myfirstapisarmkadan.azurewebsites.net/api"
+      "path": "/api/",
+      "proxyUrl": "http://myfirstapisarmkadan.azurewebsites.net/api/"
     }
-  ]
+  ],
+  "type": "ionic-angular"
 }

@@ -1,37 +1,64 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
+import { AlertController, NavController } from 'ionic-angular';
+import { RemoteTaskService } from '../../providers/RemoteTaskService';
+import { AddPage } from "../add/add";
+import { EditPage } from "../edit/edit";
+import { Observable } from "rxjs/Observable";
+import { TaskServiceProvider } from "../../providers/task-service/task-service";
+import { Task } from "../../models/Task";
 
-import { NavController, ModalController } from 'ionic-angular';
-import { AddItemPage } from '../add-item/add-item'
-import { Http } from '@angular/http';
+
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+    templateUrl: 'home.html',
+    providers: [TaskServiceProvider]
 })
-
 export class HomePage {
-  public items = []
 
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public http: Http) {
-    this.http.get('/api/values').map(res => res.json()).subscribe(data => {
-      this.items = data;
-    });
-  }
+    public items: Array<string>;
+    public data: Array<Task>;
 
-  addItem() {
-    let addModal = this.modalCtrl.create(AddItemPage);
-    addModal.onDidDismiss((item) => {
-      if (item) { this.saveItem(item); }
-    });
-    addModal.present();
-  }
+    constructor(public taskService: TaskServiceProvider, private nav: NavController, private alertCtrl: AlertController) {
+    }
 
-  saveItem(item) {
-    this.items.push(item);
-  }
+    loadData() {
+        this.taskService.all().subscribe(
+            res => {
+                this.data = res;
+                this.getDataForView();
+            }
+        );
+    }
 
-  delete(item) {
-    console.log("delete item " + item.title);
-    this.items.splice(this.items.indexOf(item), 1);
-  }
+    ionViewDidEnter() {
+        this.loadData();
+    }
+
+    private getDataForView() {
+        this.items = [];
+        for (var i = 0; i < this.data.length; i++) {
+            this.items.push(JSON.stringify(this.data[i]));
+        }
+    }
+
+    addItem() {
+        this.nav.push(AddPage);
+    }
+
+    delete(item: string) {
+
+        this.taskService.delete(JSON.parse(item).Id);
+
+    }
+
+    update(item: string) {
+
+        this.nav.push(EditPage, {
+            param1: JSON.parse(item)
+        })
+
+    }
+
+
+
 }

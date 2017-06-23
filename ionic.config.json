@@ -5,8 +5,8 @@
   "typescript": true,
 
   "proxies": [
- +    {
- +      "path": "/",
- +      "proxyUrl": "http://myfirstapisarmkadan.azurewebsites.net/"
- +    }
- +  ]
+     {
+       "path": "/",
+       "proxyUrl": "http://myfirstapisarmkadan.azurewebsites.net/"
+     }
+   ]

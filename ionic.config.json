@@ -4,7 +4,7 @@
   "proxies": [
     {
       "path": "/api/",
-      "proxyUrl": "http://localhost:53187/api/"
+      "proxyUrl": "http://myfirstapisarmkadan.azurewebsites.net/api/"
     }
   ],
   "type": "ionic-angular"

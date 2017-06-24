@@ -1,30 +1,33 @@
 import { Component } from '@angular/core';
-import {NavController } from 'ionic-angular';
-import {ApiService} from '../../providers/api-service';
+import {AlertController, NavController} from 'ionic-angular';
+import {RemoteTaskService} from '../../providers/RemoteTaskService';
 import {AddPage} from "../add/add";
 import {EditPage} from "../edit/edit";
+import {Observable} from "rxjs/Observable";
+import {TaskServiceProvider} from "../../providers/task-service/task-service";
+import {Task} from "../../models/Task";
 
 
 
 @Component({
   templateUrl: 'home.html',
-    providers: [ApiService]
+    providers: [TaskServiceProvider]
 })
 export class HomePage {
 
     public items: Array<string>;
-    public data: any;
- 
-    constructor(public apiService: ApiService,private nav: NavController) {
+    public data: Array<Task>;
+
+    constructor(public taskService: TaskServiceProvider, private nav: NavController, private alertCtrl: AlertController) {
     }
 
     loadData(){
-        this.apiService.load()
-            .then(data => {
-                this.data = data;
+        this.taskService.all().subscribe(
+            res => {
+                this.data=res;
                 this.getDataForView();
-            });
-
+            }
+        );
     }
 
     ionViewDidEnter() {
@@ -44,7 +47,7 @@ export class HomePage {
 
     delete(item: string) {
         // console.log(JSON.parse(index).Id);
-        this.apiService.delete(JSON.parse(item).Id);
+        this.taskService.delete(JSON.parse(item).Id);
         // this.items.splice(index, 1);
         // localStorage.setItem("todos", JSON.stringify(this.items));
     }
@@ -57,7 +60,8 @@ export class HomePage {
         // this.items.splice(index, 1);
         // localStorage.setItem("todos", JSON.stringify(this.items));
     }
- 
+
+
 
 }
 

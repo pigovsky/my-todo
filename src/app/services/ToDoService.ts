@@ -10,9 +10,4 @@ export class ToDoService {
          
     }
   
-    getAll() {
-        var url = 'http://myfirstapisarmkadan.azurewebsites.net/api/values/';
-        var response = this.http.get(url).map(res => res.json());
-        return response;
-    }
 }
